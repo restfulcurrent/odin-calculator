@@ -21,4 +21,26 @@ function divide(dividend, divisor) {
 // That depends on the size of the display. Implement later
 
 // Perhaps store in an operation object or array later?
-let term1, operator, term2;
+let firstTerm, operator, secondTerm;
+
+// Calls approprate function to evaluate operation depending on the operator
+// input: firstTerm, operator, secondTerm
+// returns: result of the operation
+function operate(firstTerm, operator, secondTerm) {
+    let result = null;
+    switch(operator) {
+        case "+":
+            result = add(firstTerm, secondTerm);
+            break;
+        case "-":
+            result = subtract(firstTerm, secondTerm);
+            break;
+        case "*":
+            result = multiply(firstTerm, secondTerm);
+            break;
+        case "/":
+            result = divide(firstTerm, secondTerm);
+            break;
+    }
+    return result;
+}
