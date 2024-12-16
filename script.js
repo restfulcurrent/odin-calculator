@@ -19,3 +19,6 @@ function divide(dividend, divisor) {
 
 // Cutoff large numbers so that they don't overflow the display
 // That depends on the size of the display. Implement later
+
+// Perhaps store in an operation object or array later?
+let term1, operator, term2;
