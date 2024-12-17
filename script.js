@@ -21,7 +21,9 @@ function divide(dividend, divisor) {
 // That depends on the size of the display. Implement later
 
 // Perhaps store in an operation object or array later?
-let firstTerm, operator, secondTerm;
+let firstTerm = "0";
+let operator = "";
+let secondTerm = "";
 
 // Calls approprate function to evaluate operation depending on the operator
 // input: firstTerm, operator, secondTerm
@@ -44,3 +46,18 @@ function operate(firstTerm, operator, secondTerm) {
     }
     return result;
 }
+
+const buttons = document.querySelector(".buttons-wrapper");
+buttons.addEventListener("click", displayDigit);
+
+function displayDigit(event) {
+    const element = event.target; 
+
+    if (![...element.classList].includes("digit")) return;
+
+    const display = document.querySelector(".display-content");
+
+    display.textContent += element.textContent;
+}
+
+buttons.addEventListener("click", storeOperator);

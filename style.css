@@ -14,29 +14,35 @@ body {
     align-items: center;
 }
 
-.calc {
+.calc-wrapper {
     display: flex;
     flex-direction: column;
     min-height: 560px;
     border: 1px solid rgb(171, 171, 171);
 }
 
-.calc > * {
+.calc-wrapper > * {
     flex:  1 1 0px;
 }
 
-.display{
+.display-wrapper {
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
+    /* height: 160px; */
+    max-width: 400px;
+    overflow: clip;
+    white-space: nowrap;
 }
 
 .display-content {
     font-size: 48px;
     padding: 8px 12px;
+
 }
 
-.buttons {
+.buttons-wrapper {
+    /* flex:  1 1 0px; */
     flex-grow: 2.5;
     display: flex;
     flex-direction: column;
