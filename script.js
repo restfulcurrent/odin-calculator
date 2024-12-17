@@ -17,13 +17,18 @@ function divide(dividend, divisor) {
     return (divisor === 0) ? "Undefined" : dividend / divisor;
 }
 
-// Cutoff large numbers so that they don't overflow the display
-// That depends on the size of the display. Implement later
-
 // Perhaps store in an operation object or array later?
 let firstTerm = "0";
 let operator = "";
 let secondTerm = "";
+
+const DIVISION_SIGN = "\u00F7";
+const MULTIPLICATION_SIGN = "\u00D7";
+const MINUS_SIGN = "\u2212";
+const PLUS_SIGN = "\u002B";
+const EQUALS_SIGN = "\u003D";
+const PERCENT_SIGN = "\u0025";
+const PLUS_MINUS_SIGN = "\u00B1";
 
 // Calls approprate function to evaluate operation depending on the operator
 // input: firstTerm, operator, secondTerm
@@ -31,16 +36,16 @@ let secondTerm = "";
 function operate(firstTerm, operator, secondTerm) {
     let result = null;
     switch(operator) {
-        case "+":
+        case PLUS_SIGN:
             result = add(firstTerm, secondTerm);
             break;
-        case "-":
+        case MINUS_SIGN:
             result = subtract(firstTerm, secondTerm);
             break;
-        case "*":
+        case MULTIPLICATION_SIGN:
             result = multiply(firstTerm, secondTerm);
             break;
-        case "/":
+        case DIVISION_SIGN:
             result = divide(firstTerm, secondTerm);
             break;
     }
@@ -59,5 +64,3 @@ function displayDigit(event) {
 
     display.textContent += element.textContent;
 }
-
-buttons.addEventListener("click", storeOperator);
