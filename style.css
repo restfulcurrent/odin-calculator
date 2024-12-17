@@ -62,3 +62,7 @@ body {
 .double-width {
     flex-grow: 2;
 }
+
+button:hover {
+    background-color: rgb(220, 220, 220);
+}
