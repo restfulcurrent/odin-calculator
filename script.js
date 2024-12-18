@@ -36,8 +36,13 @@ function handleClick(event) {
     } else if ( elementClasslist.includes("operator") ) {
         const newOperator = element.textContent;
 
-        if(operator) {
+
+        if(firstTerm && operator && secondTerm) {
             processOperation(display);
+        } else if(firstTerm && operator){
+            // Remove current operator from display
+            const indexOfOperator = display.textContent.indexOf(operator)
+            display.textContent = display.textContent.slice(0, indexOfOperator);
         }
 
         display.textContent += ` ${newOperator} `;
