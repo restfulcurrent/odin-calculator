@@ -19,11 +19,7 @@ function handleClick(event) {
     const elementClasslist = [...element.classList];
     const display = document.querySelector(".display-content");
 
-    if ( elementClasslist.includes("digit") ) {
-        if (display.textContent === "Error") {
-            display.textContent = "";
-        }
-    
+    if ( elementClasslist.includes("digit") ) { 
         const newDigit = element.textContent;
         display.textContent += newDigit;
     
@@ -36,33 +32,66 @@ function handleClick(event) {
     } else if ( elementClasslist.includes("operator") ) {
         const newOperator = element.textContent;
 
+        if(operator) {
+            processOperation(display);
+        }
+
         display.textContent += ` ${newOperator} `;
         operator = newOperator;
 
     } else if ( elementClasslist.includes("evaluate") ) {   
-        let result = "";
+        processOperation(display);
 
-        if(!firstTerm || !operator || !secondTerm) {
-            result = "Error";
-        } else {
-            firstTerm = Number(firstTerm);
-            secondTerm = Number(secondTerm);
-        
-            result = operate(firstTerm, operator, secondTerm);
-        }
-    
-        firstTerm = (result === "Error") ? "" : result;
-        operator = secondTerm = "";
-    
-        display.textContent = result;
     } else if ( elementClasslist.includes("clear") ) {
+        // Clear display
         display.textContent = "";
+
+        // Reset operation state
         firstTerm = operator = secondTerm = "";
     }
 
     console.log(`First term: ${firstTerm}`);
     console.log(`Operator: ${operator}`);
     console.log(`Second term: ${secondTerm}`);
+}
+
+// Evaluates the current expression, updates operation state, displays result
+// Input: A reference to the display window
+// Returns: true if evaluation was successful, false otherwise
+function processOperation(display) {
+    const result = operate(firstTerm, operator, secondTerm);
+
+    // Update operation state
+    firstTerm = (result === "Error") ? "" : result;
+    operator = secondTerm = "";
+
+    // Display result
+    display.textContent = result;
+
+    return result != "Error";
+}
+
+// Calls approprate function to evaluate operation depending on the operator
+// input: the operation to be evaluated
+// returns: result of the operation or "Error"
+function operate(firstTerm, operator, secondTerm) {
+    if(!firstTerm || !operator || !secondTerm) {
+        return "Error"
+    }
+
+    firstTerm = Number(firstTerm);
+    secondTerm = Number(secondTerm);
+
+    switch(operator) {
+        case PLUS_SIGN:
+            return add(firstTerm, secondTerm);
+        case MINUS_SIGN:
+            return subtract(firstTerm, secondTerm);
+        case MULTIPLICATION_SIGN:
+            return multiply(firstTerm, secondTerm);
+        case DIVISION_SIGN:
+            return divide(firstTerm, secondTerm);
+    }
 }
 
 function add(augend, addend) {
@@ -80,26 +109,4 @@ function multiply(multiplicand, multiplier) {
 // Returns "Undefined" if we attempt to divide by zero
 function divide(dividend, divisor) {
     return (divisor === 0) ? "Undefined" : dividend / divisor;
-}
-
-// Calls approprate function to evaluate operation depending on the operator
-// input: firstTerm, operator, secondTerm
-// returns: result of the operation
-function operate(firstTerm, operator, secondTerm) {
-    let result = null;
-    switch(operator) {
-        case PLUS_SIGN:
-            result = add(firstTerm, secondTerm);
-            break;
-        case MINUS_SIGN:
-            result = subtract(firstTerm, secondTerm);
-            break;
-        case MULTIPLICATION_SIGN:
-            result = multiply(firstTerm, secondTerm);
-            break;
-        case DIVISION_SIGN:
-            result = divide(firstTerm, secondTerm);
-            break;
-    }
-    return result;
 }
