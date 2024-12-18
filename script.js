@@ -65,7 +65,7 @@ function displayDigit(event) {
     if (display.textContent === "Error") {
         display.textContent = "";
     }
-    
+
     const newDigit = element.textContent;
 
     display.textContent += newDigit;
@@ -75,7 +75,9 @@ function displayDigit(event) {
     } else {
         secondTerm += newDigit;
     }
+    
     console.log(`First term: ${firstTerm}`);
+    console.log(`Operator: ${operator}`);
     console.log(`Second term: ${secondTerm}`);
 }
 
@@ -92,7 +94,9 @@ function storeOperator(event) {
     display.textContent += ` ${newOperator} `;
     operator = newOperator;
 
+    console.log(`First term: ${firstTerm}`);
     console.log(`Operator: ${operator}`);
+    console.log(`Second term: ${secondTerm}`);
 }
 
 buttons.addEventListener("click", evaluateExpression);
@@ -120,4 +124,25 @@ function evaluateExpression(event) {
     // Re-populate variables
     firstTerm = result;
     operator = secondTerm = "";
+
+    console.log(`First term: ${firstTerm}`);
+    console.log(`Operator: ${operator}`);
+    console.log(`Second term: ${secondTerm}`);
+}
+
+buttons.addEventListener("click", clearDisplay);
+
+function clearDisplay(event) {
+    const element = event.target;
+
+    if(![...element.classList].includes("clear")) return;
+
+    const display = document.querySelector(".display-content");
+    display.textContent = "";
+
+    firstTerm = operator = secondTerm = "";
+
+    console.log(`First term: ${firstTerm}`);
+    console.log(`Operator: ${operator}`);
+    console.log(`Second term: ${secondTerm}`);
 }
