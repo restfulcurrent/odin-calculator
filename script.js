@@ -1,4 +1,69 @@
-// 1. Functions for basic math operators + - * /
+// Perhaps store in an operation object or array later?
+let firstTerm = "";
+let operator = "";
+let secondTerm = "";
+
+const DIVISION_SIGN = "\u00F7";
+const MULTIPLICATION_SIGN = "\u00D7";
+const MINUS_SIGN = "\u2212";
+const PLUS_SIGN = "\u002B";
+const EQUALS_SIGN = "\u003D";
+const PERCENT_SIGN = "\u0025";
+const PLUS_MINUS_SIGN = "\u00B1";
+
+const buttons = document.querySelector(".buttons-wrapper");
+buttons.addEventListener("click", handleClick);
+
+function handleClick(event) {
+    const element = event.target;
+    const elementClasslist = [...element.classList];
+    const display = document.querySelector(".display-content");
+
+    if ( elementClasslist.includes("digit") ) {
+        if (display.textContent === "Error") {
+            display.textContent = "";
+        }
+    
+        const newDigit = element.textContent;
+        display.textContent += newDigit;
+    
+        if (!operator) {
+            firstTerm += newDigit;
+        } else {
+            secondTerm += newDigit;
+        }
+
+    } else if ( elementClasslist.includes("operator") ) {
+        const newOperator = element.textContent;
+
+        display.textContent += ` ${newOperator} `;
+        operator = newOperator;
+
+    } else if ( elementClasslist.includes("evaluate") ) {   
+        let result = "";
+
+        if(!firstTerm || !operator || !secondTerm) {
+            result = "Error";
+        } else {
+            firstTerm = Number(firstTerm);
+            secondTerm = Number(secondTerm);
+        
+            result = operate(firstTerm, operator, secondTerm);
+        }
+    
+        firstTerm = (result === "Error") ? "" : result;
+        operator = secondTerm = "";
+    
+        display.textContent = result;
+    } else if ( elementClasslist.includes("clear") ) {
+        display.textContent = "";
+        firstTerm = operator = secondTerm = "";
+    }
+
+    console.log(`First term: ${firstTerm}`);
+    console.log(`Operator: ${operator}`);
+    console.log(`Second term: ${secondTerm}`);
+}
 
 function add(augend, addend) {
     return augend + addend;
@@ -16,19 +81,6 @@ function multiply(multiplicand, multiplier) {
 function divide(dividend, divisor) {
     return (divisor === 0) ? "Undefined" : dividend / divisor;
 }
-
-// Perhaps store in an operation object or array later?
-let firstTerm = "";
-let operator = "";
-let secondTerm = "";
-
-const DIVISION_SIGN = "\u00F7";
-const MULTIPLICATION_SIGN = "\u00D7";
-const MINUS_SIGN = "\u2212";
-const PLUS_SIGN = "\u002B";
-const EQUALS_SIGN = "\u003D";
-const PERCENT_SIGN = "\u0025";
-const PLUS_MINUS_SIGN = "\u00B1";
 
 // Calls approprate function to evaluate operation depending on the operator
 // input: firstTerm, operator, secondTerm
@@ -50,99 +102,4 @@ function operate(firstTerm, operator, secondTerm) {
             break;
     }
     return result;
-}
-
-const buttons = document.querySelector(".buttons-wrapper");
-buttons.addEventListener("click", displayDigit);
-
-function displayDigit(event) {
-    const element = event.target; 
-
-    if (![...element.classList].includes("digit")) return;
-
-    const display = document.querySelector(".display-content");
-
-    if (display.textContent === "Error") {
-        display.textContent = "";
-    }
-
-    const newDigit = element.textContent;
-
-    display.textContent += newDigit;
-
-    if (!operator) {
-        firstTerm += newDigit;
-    } else {
-        secondTerm += newDigit;
-    }
-    
-    console.log(`First term: ${firstTerm}`);
-    console.log(`Operator: ${operator}`);
-    console.log(`Second term: ${secondTerm}`);
-}
-
-buttons.addEventListener("click", storeOperator);
-
-function storeOperator(event) {
-    const element = event.target;
-
-    if(![...element.classList].includes("operator")) return;
-
-    const display = document.querySelector(".display-content");
-    const newOperator = element.textContent;
-
-    display.textContent += ` ${newOperator} `;
-    operator = newOperator;
-
-    console.log(`First term: ${firstTerm}`);
-    console.log(`Operator: ${operator}`);
-    console.log(`Second term: ${secondTerm}`);
-}
-
-buttons.addEventListener("click", evaluateExpression);
-
-function evaluateExpression(event) {
-    const element = event.target;
-
-    if(![...element.classList].includes("evaluate")) return;
-
-    const display = document.querySelector(".display-content");
-
-    if(!firstTerm || !operator || !secondTerm) {
-        firstTerm = operator = secondTerm = "";
-        display.textContent = "Error";
-        return;
-    }
-
-    firstTerm = Number(firstTerm);
-    secondTerm = Number(secondTerm);
-
-    const result = operate(firstTerm, operator, secondTerm);
-    console.log(result);
-    display.textContent = `${result}`;
-
-    // Re-populate variables
-    firstTerm = result;
-    operator = secondTerm = "";
-
-    console.log(`First term: ${firstTerm}`);
-    console.log(`Operator: ${operator}`);
-    console.log(`Second term: ${secondTerm}`);
-}
-
-buttons.addEventListener("click", clearDisplay);
-
-function clearDisplay(event) {
-    const element = event.target;
-
-    if(![...element.classList].includes("clear")) return;
-
-    const display = document.querySelector(".display-content");
-    display.textContent = "";
-
-    firstTerm = operator = secondTerm = "";
-
-    console.log(`First term: ${firstTerm}`);
-    console.log(`Operator: ${operator}`);
-    console.log(`Second term: ${secondTerm}`);
 }
