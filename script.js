@@ -18,7 +18,7 @@ function divide(dividend, divisor) {
 }
 
 // Perhaps store in an operation object or array later?
-let firstTerm = "0";
+let firstTerm = "";
 let operator = "";
 let secondTerm = "";
 
@@ -61,6 +61,31 @@ function displayDigit(event) {
     if (![...element.classList].includes("digit")) return;
 
     const display = document.querySelector(".display-content");
+    const newDigit = element.textContent;
 
-    display.textContent += element.textContent;
+    display.textContent += newDigit;
+
+    if (!operator) {
+        firstTerm += newDigit;
+    } else {
+        secondTerm += newDigit;
+    }
+    console.log(`First term: ${firstTerm}`);
+    console.log(`Second term: ${secondTerm}`);
+}
+
+buttons.addEventListener("click", storeOperator);
+
+function storeOperator(event) {
+    const element = event.target;
+
+    if(![...element.classList].includes("operator")) return;
+
+    const display = document.querySelector(".display-content");
+    const newOperator = element.textContent;
+
+    display.textContent += ` ${newOperator} `;
+    operator = newOperator;
+
+    console.log(`Operator: ${operator}`);
 }
