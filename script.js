@@ -61,6 +61,11 @@ function displayDigit(event) {
     if (![...element.classList].includes("digit")) return;
 
     const display = document.querySelector(".display-content");
+
+    if (display.textContent === "Error") {
+        display.textContent = "";
+    }
+    
     const newDigit = element.textContent;
 
     display.textContent += newDigit;
@@ -88,4 +93,31 @@ function storeOperator(event) {
     operator = newOperator;
 
     console.log(`Operator: ${operator}`);
+}
+
+buttons.addEventListener("click", evaluateExpression);
+
+function evaluateExpression(event) {
+    const element = event.target;
+
+    if(![...element.classList].includes("evaluate")) return;
+
+    const display = document.querySelector(".display-content");
+
+    if(!firstTerm || !operator || !secondTerm) {
+        firstTerm = operator = secondTerm = "";
+        display.textContent = "Error";
+        return;
+    }
+
+    firstTerm = Number(firstTerm);
+    secondTerm = Number(secondTerm);
+
+    const result = operate(firstTerm, operator, secondTerm);
+    console.log(result);
+    display.textContent = `${result}`;
+
+    // Re-populate variables
+    firstTerm = result;
+    operator = secondTerm = "";
 }
