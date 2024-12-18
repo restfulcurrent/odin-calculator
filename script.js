@@ -19,6 +19,10 @@ function handleClick(event) {
     const elementClasslist = [...element.classList];
     const display = document.querySelector(".display-content");
 
+    if (display.textContent === "Error" || display.textContent === "0")  {
+        display.textContent = "";
+    }
+
     if ( elementClasslist.includes("digit") ) { 
         const newDigit = element.textContent;
         display.textContent += newDigit;
